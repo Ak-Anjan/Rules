@@ -1,0 +1,15 @@
+drop tls $HOME_NET any -> $EXTERNAL_NET any (msg:"BLOCK FACEBOOK TLS"; flow:to_server,established; tls.sni; content:".facebook.com"; endswith; nocase; sid:9200001; rev:2;)
+
+drop dns $HOME_NET any -> $EXTERNAL_NET any (msg:"BLOCK FACEBOOK DNS"; dns.query; content:"facebook.com"; nocase; endswith; sid:9200101; rev:2;)
+
+drop tls $HOME_NET any -> $EXTERNAL_NET any (msg:"BLOCK FACEBOOK CDN"; flow:to_server,established; tls.sni; content:".fbcdn.net"; endswith; nocase; sid:9200002; rev:1;)
+
+drop tls $HOME_NET any -> $EXTERNAL_NET any (msg:"BLOCK FACEBOOK MESSENGER"; flow:to_server,established; tls.sni; content:".messenger.com"; endswith; nocase; sid:9200003; rev:1;)
+
+drop tls $HOME_NET any -> $EXTERNAL_NET any (msg:"BLOCK FACEBOOK GRAPH"; flow:to_server,established; tls.sni; content:"graph.facebook.com"; nocase; sid:9200004; rev:1;)
+
+drop dns $HOME_NET any -> $EXTERNAL_NET any (msg:"BLOCK FACEBOOK CDN DNS"; dns.query; content:"fbcdn.net"; nocase; endswith; sid:9200102; rev:1;)
+
+drop dns $HOME_NET any -> $EXTERNAL_NET any (msg:"BLOCK MESSENGER DNS"; dns.query; content:"messenger.com"; nocase; endswith; sid:9200103; rev:1;)
+
+drop udp $HOME_NET any -> $EXTERNAL_NET 443 (msg:"BLOCK QUIC"; sid:9400202; rev:1;)
